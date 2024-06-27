@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_app/src/core/constants/colors/color_constants.dart';
 import 'package:todo_app/src/core/constants/textStyles/text_style_constants.dart';
 import 'package:todo_app/src/core/mixins/show_bar.dart';
 import 'package:todo_app/src/pages/home/model/todo_model.dart';
 import 'package:todo_app/src/pages/home/viewModel/home_view_model.dart';
 import 'package:todo_app/src/pages/home/widget/add_task_sheet.dart';
+import 'package:todo_app/src/pages/home/widget/blue_button.dart';
+import 'package:todo_app/src/pages/home/widget/red_text_button.dart';
 
 class TodayView extends StatelessWidget with ShowBar {
   const TodayView({
@@ -17,7 +20,7 @@ class TodayView extends StatelessWidget with ShowBar {
 
   @override
   Widget build(BuildContext context) {
-    final controller = context.watch<HomeViewModel>();
+    final HomeViewModel controller = context.watch<HomeViewModel>();
     return SizedBox(
       child: ListView.builder(
           itemCount: todos.length,
@@ -30,33 +33,7 @@ class TodayView extends StatelessWidget with ShowBar {
                   return await showDialog(
                     context: context,
                     builder: (context) {
-                      return AlertDialog(
-                        content: Text(
-                          "Do you want to delete your to-do permanently?",
-                          style:
-                              TextStyleConstants.mediumStyle(fontSize: 19.sp),
-                        ),
-                        actionsAlignment: MainAxisAlignment.center,
-                        actions: [
-                          RedTextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop(true);
-                              todos.remove(todo);
-                              context.read<HomeViewModel>().removeTask(todo);
-                              showSuccessBar(
-                                "Task deleted successfully",
-                              );
-                            },
-                            text: 'Delete',
-                          ),
-                          BlueButton(
-                            onTap: () {
-                              Navigator.of(context).pop(false);
-                            },
-                            title: 'Cancel',
-                          ),
-                        ],
-                      );
+                      return deleteDialog(context, todo);
                     },
                   );
                 }
@@ -79,7 +56,7 @@ class TodayView extends StatelessWidget with ShowBar {
                         todo.isCompleted
                             ? Icons.check_box
                             : Icons.check_box_outline_blank,
-                        color: const Color(0xff88A7AA),
+                        color: ColorConstants.lightBlueGrey,
                         size: 24.sp,
                       ),
                     ),
@@ -105,7 +82,7 @@ class TodayView extends StatelessWidget with ShowBar {
                                   vertical: 2.5.h, horizontal: 8.w),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: const Color(0xffE6F2F3),
+                                color: ColorConstants.appbarBackgroundColor,
                               ),
                               child: Center(
                                 child: Row(
@@ -114,8 +91,8 @@ class TodayView extends StatelessWidget with ShowBar {
                                       Text(todo.tag!.name,
                                           style:
                                               TextStyleConstants.regularStyle(
-                                                  color:
-                                                      const Color(0xff3396A1))),
+                                                  color: ColorConstants
+                                                      .primaryColor)),
                                   ],
                                 ),
                               ),
@@ -127,9 +104,9 @@ class TodayView extends StatelessWidget with ShowBar {
                               child: CircularProgressIndicator(
                                 value: todo.progress,
                                 strokeWidth: 4,
-                                backgroundColor: const Color(0xff88A7AA),
+                                backgroundColor: ColorConstants.lightBlueGrey,
                                 valueColor: const AlwaysStoppedAnimation<Color>(
-                                  Color(0xff3396A1),
+                                  ColorConstants.primaryColor,
                                 ),
                               ),
                             ),
@@ -142,6 +119,35 @@ class TodayView extends StatelessWidget with ShowBar {
               ),
             );
           }),
+    );
+  }
+
+  AlertDialog deleteDialog(BuildContext context, TodoModel todo) {
+    return AlertDialog(
+      content: Text(
+        "Do you want to delete your to-do permanently?",
+        style: TextStyleConstants.mediumStyle(fontSize: 19.sp),
+      ),
+      actionsAlignment: MainAxisAlignment.center,
+      actions: [
+        RedTextButton(
+          onPressed: () {
+            Navigator.of(context).pop(true);
+            todos.remove(todo);
+            context.read<HomeViewModel>().removeTask(todo);
+            showSuccessBar(
+              "Task deleted successfully",
+            );
+          },
+          text: 'Delete',
+        ),
+        BlueButton(
+          onTap: () {
+            Navigator.of(context).pop(false);
+          },
+          title: 'Cancel',
+        ),
+      ],
     );
   }
 }

@@ -13,17 +13,12 @@ dependencies:
   flutter:
     sdk: flutter
 
-  # state management
+  # responsive design
   flutter_screenutil: ^5.9.3
-  hive_flutter: ^1.1.0
-  provider: ^6.0.5
-
-
   # local storage
-  
-
-
-
+  hive_flutter: ^1.1.0
+  # state management
+  provider: ^6.0.5
 
 
 
@@ -31,7 +26,9 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.2
+  # for generating model classes and adapters like .g.dart files
   build_runner: ^2.4.11
+  # for generating model register adapter
   hive_generator: ^2.0.1
 
 

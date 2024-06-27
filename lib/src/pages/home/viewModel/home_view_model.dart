@@ -3,10 +3,9 @@ import 'package:todo_app/src/core/services/local/local_caching.dart';
 import 'package:todo_app/src/core/services/navigation/navigation_service.dart';
 import 'package:todo_app/src/pages/home/model/tag_model.dart';
 import 'package:todo_app/src/pages/home/model/todo_model.dart';
-import '../../../core/base/viewModel/base_view_model.dart';
 import '../../../core/mixins/show_bar.dart';
 
-class HomeViewModel extends ChangeNotifier with BaseViewModel, ShowBar {
+class HomeViewModel extends ChangeNotifier with ShowBar {
   HomeViewModel() {
     _todos = LocalCaching.instance.getTodos();
     _allTags = LocalCaching.instance.getTags();

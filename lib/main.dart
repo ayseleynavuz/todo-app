@@ -8,9 +8,8 @@ import 'src/core/services/navigation/navigation_route.dart';
 import 'src/core/services/navigation/navigation_service.dart';
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
-  await LocalCaching.prefInit();
+  await LocalCaching.cacheInit();
   runApp(
     MultiProvider(
       providers: AppConstants.defaultProviders,
@@ -27,17 +26,15 @@ class MyApp extends StatelessWidget {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: ScreenUtilInit(
-      designSize: const Size(360, 640),
-      minTextAdapt: true,
-      splitScreenMode: true,
+        designSize: const Size(360, 640),
+        minTextAdapt: true,
+        splitScreenMode: true,
         child: MaterialApp(
           title: AppConstants.appName,
           debugShowCheckedModeBanner: false,
-          //builder: (context, child) => BuilderWidget(child: child),
           initialRoute: NavigationConstants.home,
           onGenerateRoute: NavigationRoute.instance.generateRoute,
           navigatorKey: NavigationService.instance.navigatorKey,
-         
         ),
       ),
     );

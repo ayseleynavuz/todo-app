@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_app/src/core/constants/colors/color_constants.dart';
+import 'package:todo_app/src/core/constants/textStyles/text_style_constants.dart';
 import 'package:todo_app/src/core/extensions/widget_extensions.dart';
 import 'package:todo_app/src/core/services/navigation/navigation_service.dart';
 import 'package:todo_app/src/pages/home/model/tag_model.dart';
@@ -13,7 +14,7 @@ class AddTagSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = context.watch<HomeViewModel>();
+    final HomeViewModel controller = context.watch<HomeViewModel>();
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.w),
       child: Column(
@@ -23,25 +24,26 @@ class AddTagSheet extends StatelessWidget {
           10.verticalSpace,
           const Divider(
             thickness: 1,
-            color: Color(0xffE5E5E5),
+            color: ColorConstants.lightGrey,
           ),
           20.verticalSpace,
           Row(
             children: [
-              const Text(
+              Text(
                 "Tags",
-                style: TextStyle(
-                  color: Color(0xff3396A1),
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: TextStyleConstants.mediumStyle(
+                    color: ColorConstants.primaryColor),
               ),
               const Spacer(),
               InkWell(
-                  onTap: () {
-                    NavigationService.instance.pop();
-                  },
-                  child: const Icon(Icons.close, color: Color(0xff3396A1))),
+                onTap: () {
+                  NavigationService.instance.pop();
+                },
+                child: const Icon(
+                  Icons.close,
+                  color: ColorConstants.primaryColor,
+                ),
+              ),
             ],
           ),
           20.verticalSpace,
@@ -52,13 +54,13 @@ class AddTagSheet extends StatelessWidget {
             },
             decoration: InputDecoration(
               hintText: "Add a tag",
-              hintStyle: const TextStyle(
-                color: Color(0xff88A7AA),
+              hintStyle: TextStyleConstants.regularStyle(
+                color: ColorConstants.lightBlueGrey,
               ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: const BorderSide(
-                  color: Color(0xffE5E5E5),
+                  color: ColorConstants.lightGrey,
                 ),
               ),
               contentPadding:
@@ -89,7 +91,7 @@ class AddTagSheet extends StatelessWidget {
                         shape: BoxShape.circle,
                         border: Border.all(
                           color: controller.isSelectedColor(color)
-                              ? Colors.orange
+                              ? ColorConstants.primaryColor
                               : Colors.transparent,
                           width: 2,
                         ),
@@ -128,13 +130,11 @@ class AddTagSheet extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.r),
             ),
-            color: const Color(0xff3396A1),
+            color: ColorConstants.primaryColor,
             child: Text(
               "Save",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16.sp,
-              ),
+              style:
+                  TextStyleConstants.mediumStyle(color: ColorConstants.white),
             ),
           ),
           70.verticalSpace,

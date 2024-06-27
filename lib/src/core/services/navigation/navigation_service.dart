@@ -18,10 +18,11 @@ class NavigationService implements INavigationService {
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
   bool Function(Route<dynamic> route) get removeAllOldRoutes =>
-          (Route<dynamic> route) => false;
+      (Route<dynamic> route) => false;
 
   @override
-  Future<void> navigateToPage({String? path, Object? data,bool? rootNavigator}) async {
+  Future<void> navigateToPage(
+      {String? path, Object? data, bool? rootNavigator}) async {
     await navigatorKey.currentState!.pushNamed(path!, arguments: data);
   }
 
@@ -32,6 +33,8 @@ class NavigationService implements INavigationService {
   }
 
   void pop() {
-    navigatorKey.currentState!.pop();
+    if (navigatorKey.currentState!.canPop()) {
+      navigatorKey.currentState!.pop();
+    }
   }
 }

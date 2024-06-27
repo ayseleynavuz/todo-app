@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:todo_app/src/core/constants/colors/color_constants.dart';
 import 'package:todo_app/src/core/constants/textStyles/text_style_constants.dart';
 
 class CustomCard extends StatelessWidget {
@@ -11,7 +12,6 @@ class CustomCard extends StatelessWidget {
   });
 
   final String title;
-
   final void Function()? onTap;
   final Widget? leading;
 
@@ -23,8 +23,8 @@ class CustomCard extends StatelessWidget {
         height: 24.h,
         padding: EdgeInsets.symmetric(vertical: 2.5.h, horizontal: 8.w),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: const Color(0xff111718).withOpacity(.04),
+          borderRadius: BorderRadius.circular(10.r),
+          color: ColorConstants.textColor.withOpacity(.04),
         ),
         child: Center(
             child: Row(
@@ -33,7 +33,7 @@ class CustomCard extends StatelessWidget {
             Text(
               title,
               style: TextStyleConstants.regularStyle(
-                color: const Color(0xff3396A1),
+                color: ColorConstants.primaryColor,
               ),
               overflow: TextOverflow.ellipsis,
               maxLines: 1,

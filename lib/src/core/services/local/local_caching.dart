@@ -7,15 +7,15 @@ class LocalCaching {
   static final LocalCaching _instance = LocalCaching._internal();
 
   String todoBoxName = "todoBox";
-  String tagBoxName = "todoBox";
+  String tagBoxName = "tagBox";
   static LocalCaching get instance => _instance;
 
   LocalCaching._internal();
 
-  Box? todoBox;
-  Box? tagBox;
+  late Box todoBox;
+  late Box tagBox;
 
-  static prefInit() async {
+  static cacheInit() async {
     Hive.registerAdapter(TodoModelAdapter());
     Hive.registerAdapter(TagModelAdapter());
     await Hive.initFlutter();
@@ -25,8 +25,8 @@ class LocalCaching {
 
   List<TodoModel> getTodos() {
     List<TodoModel> todos = [];
-    for (var i = 0; i < instance.todoBox!.length; i++) {
-      final todo = instance.todoBox!.getAt(i);
+    for (var i = 0; i < instance.todoBox.length; i++) {
+      final todo = instance.todoBox.getAt(i);
       if (todo is TodoModel) {
         todos.add(todo);
       }
@@ -35,15 +35,15 @@ class LocalCaching {
   }
 
   void addTodoModel(TodoModel todoModel) {
-    instance.todoBox!.add(todoModel);
+    instance.todoBox.add(todoModel);
   }
 
   void removeTask(TodoModel todoModel) {
-    for (int i = 0; i < instance.todoBox!.length; i++) {
-      final todo = instance.todoBox!.getAt(i);
+    for (int i = 0; i < instance.todoBox.length; i++) {
+      final todo = instance.todoBox.getAt(i);
       if (todo is TodoModel) {
         if (todo.id == todoModel.id) {
-          instance.todoBox!.deleteAt(i);
+          instance.todoBox.deleteAt(i);
 
           break;
         }
@@ -52,36 +52,27 @@ class LocalCaching {
   }
 
   void addTagModel(TagModel tagModel) {
-    instance.tagBox!.add(tagModel);
-  }
-
-  void removeTag(TagModel tagModel) {
-    for (int i = 0; i < instance.tagBox!.length; i++) {
-      if (instance.tagBox!.getAt(i).name == tagModel.name) {
-        instance.tagBox!.deleteAt(i);
-        break;
-      }
-    }
+    instance.tagBox.add(tagModel);
   }
 
   List<TagModel> getTags() {
     List<TagModel> tags = [];
-    for (var i = 0; i < instance.tagBox!.length; i++) {
-      final tag = instance.tagBox!.getAt(i);
+    for (var i = 0; i < instance.tagBox.length; i++) {
+      final tag = instance.tagBox.getAt(i);
 
       if (tag is TagModel) {
-        tags.add(instance.tagBox!.getAt(i));
+        tags.add(tag);
       }
     }
     return tags;
   }
 
   void updateTask(TodoModel todo) {
-    for (int i = 0; i < instance.todoBox!.length; i++) {
-      final todoModel = instance.todoBox!.getAt(i);
+    for (int i = 0; i < instance.todoBox.length; i++) {
+      final todoModel = instance.todoBox.getAt(i);
       if (todoModel is TodoModel) {
         if (todoModel.id == todo.id) {
-          instance.todoBox!.putAt(i, todo);
+          instance.todoBox.putAt(i, todo);
           break;
         }
       }
